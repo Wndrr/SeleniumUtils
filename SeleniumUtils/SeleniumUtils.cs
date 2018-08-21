@@ -1,6 +1,4 @@
-﻿using System;
-using System.Drawing;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 
 namespace SeleniumUtils
 {
