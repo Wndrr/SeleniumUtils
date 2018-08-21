@@ -1,6 +1,6 @@
 ﻿using OpenQA.Selenium;
 
-namespace SeleniumUtils
+namespace Wndrr.Selenium
 {
     public static class SeleniumUtils
     {

@@ -14,7 +14,9 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Description>A collection of utility methods for Selenium Webdriver</Description>
     <NeutralLanguage>en</NeutralLanguage>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
+    <RootNamespace>Wndrr.Selenium</RootNamespace>
+    <AssemblyName>Wndrr.Selenium</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
