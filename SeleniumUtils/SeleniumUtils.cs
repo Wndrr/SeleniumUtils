@@ -27,7 +27,10 @@ namespace SeleniumUtils
         /// </summary>
         /// <param name="driver"></param>
         /// <param name="index">Target tab</param>
-        /// <returns>Indicates if the change was possible</returns>
+        /// <returns>
+        /// false - when the requested index was outside of the possible range
+        /// true - the tab was found, all clear 
+        /// </returns>
         public static bool SwitchToTab(this IWebDriver driver, int index)
         {
             var switchAction = driver.SwitchTo();

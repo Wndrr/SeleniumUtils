@@ -14,6 +14,7 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Description>A collection of utility methods for Selenium Webdriver</Description>
     <NeutralLanguage>en</NeutralLanguage>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
