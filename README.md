@@ -26,7 +26,7 @@ using (var driver = new ChromeDriver())
 }
 ```
 
-### The `SwitchToTab` method
+### The `SwitchToTab` extension method
 
 Changes the focus of the `IWebDriver` to target the tab/window, finding it by its id.
 The return value indicates if the tab could be found. When it is `false` no tab change occured.
