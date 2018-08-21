@@ -2,6 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>Wndrr.Selenium.Utils</PackageId>
+    <Authors>Mathieu Viales</Authors>
+    <Company />
+    <Product />
+    <RepositoryUrl>https://github.com/Wndrr/SeleniumUtils</RepositoryUrl>
+    <PackageTags>selenium</PackageTags>
+    <PackageIconUrl>https://cdn.iconscout.com/icon/premium/png-512-thumb/selenium-2-570545.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/Wndrr/SeleniumUtils</PackageProjectUrl>
+    <PackageLicenseUrl>http://unlicense.org</PackageLicenseUrl>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Description>A collection of utility methods for Selenium Webdriver</Description>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
   <ItemGroup>
