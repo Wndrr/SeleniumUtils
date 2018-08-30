@@ -1,22 +1,24 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions.Internal;
 
 namespace Wndrr.Selenium
 {
     public static class SeleniumUtils
     {
         /// <summary>
-        /// Scrolls an element to the middle of the screen
+        /// Vertically scrolls an element to the middle of the screen using JavaScript
         /// </summary>
         /// <param name="driver"></param>
-        /// <param name="element"></param>
-        public static void ScrollTo(this IWebDriver driver, IWebElement element)
+        /// <param name="element">The lement to scroll into view</param>
+        public static void VerticalScrollTo(this IWebDriver driver, IWebElement element)
         {
-            if (element is ILocatable locatable)
+            if (element is ILocatable locatableCalendar)
             {
-                var position = locatable.LocationOnScreenOnceScrolledIntoView;
-                var js = (IJavaScriptExecutor)driver;
-                var windowHeight = driver.Manage().Window.Size.Height;
-                js.ExecuteScript($"window.scrollTo({position.X},{(windowHeight / 2) + position.Y});");
+                var halfWindowHeight = driver.Manage().Window.Size.Height / 2;
+                var targetElementVerticalPosition = locatableCalendar.Coordinates.LocationInDom.Y;
+                var yCoordinateForElementCenterScreen = targetElementVerticalPosition - halfWindowHeight;
+
+                ((IJavaScriptExecutor)driver).ExecuteScript($"window.scrollTo(0, {yCoordinateForElementCenterScreen});");
             }
         }
 
