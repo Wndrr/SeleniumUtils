@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions.Internal;
 
@@ -53,6 +55,45 @@ namespace Wndrr.Selenium
             switchAction.Window(handle);
 
             return true;
+        }
+
+        /// <summary>
+        /// Polls the driver URL until it changes or until the timeout expires
+        /// <exception cref="TimeoutException"></exception>
+        /// </summary>
+        /// <param name="driver"></param>
+        /// <param name="timeout">Throws if the URL has not changed before the specified timeout period is elapsed</param>
+        /// <param name="pollInterval">The time to wait between two polls</param>
+        public static void WaitUntilCurrentUrlChange(this IWebDriver driver, TimeSpan timeout, int pollInterval = 500)
+        {
+            var timer = new Stopwatch();
+            timer.Start();
+            var startUrl = driver.Url;
+
+            while (true)
+            {
+                if (startUrl != driver.Url)
+                    break;
+
+                var isTimeout = TimeSpan.Compare(timer.Elapsed, timeout) > 0;
+                if (isTimeout)
+                    throw new TimeoutException($"The URL has not changed within the allowed {timeout} milliseconds");
+
+                Thread.Sleep(pollInterval);
+            }
+        }
+        
+        /// <summary>
+        /// Polls the driver URL until it changes or until the timeout expires
+        /// <exception cref="TimeoutException"></exception>
+        /// </summary>
+        /// <param name="driver"></param>
+        /// <param name="timeout">Throws if the URL has not changed before the specified timeout period is elapsed</param>
+        /// <param name="pollInterval">The time to wait between two polls</param>
+        public static void WaitUntilCurrentUrlChange(this IWebDriver driver, int timeout = 10000, int pollInterval = 500)
+        {
+            var timeoutSpan = new TimeSpan(0, 0, 0, 0, timeout);
+            WaitUntilCurrentUrlChange(driver, timeoutSpan, pollInterval);
         }
     }
 }
