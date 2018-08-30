@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions.Internal;
 
 namespace Wndrr.Selenium
@@ -20,6 +21,16 @@ namespace Wndrr.Selenium
 
                 ((IJavaScriptExecutor)driver).ExecuteScript($"window.scrollTo(0, {yCoordinateForElementCenterScreen});");
             }
+        }
+        /// <summary>
+        /// Vertically scrolls an element to the middle of the screen using JavaScript
+        /// </summary>
+        /// <param name="driver"></param>
+        /// <param name="element">The lement to scroll into view</param>
+        [Obsolete("Please use VerticalScrollTo instead")]
+        public static void ScrollTo(this IWebDriver driver, IWebElement element)
+        {
+            VerticalScrollTo(driver, element);
         }
 
         /// <summary>
