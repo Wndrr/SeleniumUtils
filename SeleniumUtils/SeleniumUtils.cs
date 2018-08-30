@@ -77,7 +77,7 @@ namespace Wndrr.Selenium
 
                 var isTimeout = TimeSpan.Compare(timer.Elapsed, timeout) > 0;
                 if (isTimeout)
-                    throw new TimeoutException($"The URL has not changed within the allowed {timeout} milliseconds");
+                    throw new TimeoutException($"The URL {driver.Url} has not changed within the allowed {timeout} milliseconds");
 
                 Thread.Sleep(pollInterval);
             }
