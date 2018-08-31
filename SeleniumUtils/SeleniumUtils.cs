@@ -82,7 +82,7 @@ namespace Wndrr.Selenium
                 Thread.Sleep(pollInterval);
             }
         }
-        
+
         /// <summary>
         /// Polls the driver URL until it changes or until the timeout expires
         /// <exception cref="TimeoutException"></exception>
@@ -94,6 +94,50 @@ namespace Wndrr.Selenium
         {
             var timeoutSpan = new TimeSpan(0, 0, 0, 0, timeout);
             WaitUntilCurrentUrlChange(driver, timeoutSpan, pollInterval);
+        }
+
+        /// <summary>
+        /// Polls the driver URL until it changes to the targetUrl or until the timeout expires
+        /// <exception cref="TimeoutException"></exception>
+        /// </summary>
+        /// <param name="driver"></param>
+        /// <param name="targetUrl">The URL to look for</param>
+        /// <param name="timeout">Throws if the URL has not changed before the specified timeout period is elapsed</param>
+        /// <param name="pollInterval">The time to wait between two polls</param>
+        public static void WaitUntilUrlIs(IWebDriver driver, string targetUrl, TimeSpan timeout, int pollInterval = 500)
+        {
+            if (driver.Url == targetUrl)
+                return;
+
+            var timer = new Stopwatch();
+            timer.Start();
+
+            while (true)
+            {
+                if (driver.Url == targetUrl)
+                    break;
+
+                var isTimeout = TimeSpan.Compare(timer.Elapsed, timeout) > 0;
+                if (isTimeout)
+                    throw new TimeoutException($"The URL {driver.Url} has not changed to {targetUrl} within the allowed {timeout} milliseconds");
+
+                Thread.Sleep(pollInterval);
+            }
+        }
+
+        /// <summary>
+        /// Polls the driver URL until it changes to the targetUrl or until the timeout expires
+        /// <exception cref="TimeoutException"></exception>
+        /// </summary>
+        /// <param name="driver"></param>
+        /// <param name="targetUrl">The URL to look for</param>
+        /// <param name="timeout">Throws if the URL has not changed before the specified timeout period is elapsed</param>
+        /// <param name="pollInterval">The time to wait between two polls</param>
+        public static void WaitUntilUrlIs(IWebDriver driver, string targetUrl, int timeout, int pollInterval = 500)
+        {
+
+            var timeoutSpan = new TimeSpan(0, 0, 0, 0, timeout);
+            WaitUntilUrlIs(driver, "targetUrl", timeoutSpan, pollInterval);
         }
     }
 }
