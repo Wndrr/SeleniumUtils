@@ -42,14 +42,25 @@ using (var driver = new ChromeDriver())
 
 ### The `WaitUntilCurrentUrlChange` extension method
 
-Periodically checks the if the browser URL has changed. Is no changes occured before the specified timeout occurs, a `TimeoutException` will be thrown if the url hasn't changed after the specified `timeout` period.
-The return value indicates if the tab could be found. When it is `false` no tab change occured.
+Periodically checks if the browser URL has changed. If no changes occured before the specified timeout occurs, a `TimeoutException` will be thrown.
 ```csharp
 // Instanciate an IWebDriver
 using (var driver = new ChromeDriver())
 {
-    // Will wait untill the URL changes using the default timeout (10s) and poll (.5s) times
+    // Will wait untill the URL changes using the default timeout (10s) and poll (.5s) time
     driver.WaitUntilCurrentUrlChange();
+}
+```
+
+### The `WaitUntilUrlIs` extension method
+
+Periodically checks if the browser URL is identical to the passed string. If the URL does not match before the specified timeout occurs, a `TimeoutException` will be thrown.
+```csharp
+// Instanciate an IWebDriver
+using (var driver = new ChromeDriver())
+{
+    // Will wait untill the URL becomes https://request.url using the default timeout (10s) and poll (.5s) time
+    driver.WaitUntilUrlIs("https://request.url");
 }
 ```
 
