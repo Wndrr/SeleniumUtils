@@ -8,6 +8,30 @@ namespace Wndrr.Selenium
 {
     public static class SeleniumUtils
     {
+
+        /// <summary>
+        /// Changes the currently focused tab
+        /// </summary>
+        /// <param name="driver"></param>
+        /// <param name="index">Target tab</param>
+        /// <returns>
+        /// false - when the requested index was outside of the possible range
+        /// true - the tab was found, all clear 
+        /// </returns>
+        public static bool SwitchToTab(this IWebDriver driver, int index)
+        {
+            var switchAction = driver.SwitchTo();
+            // If the index is out of range
+            if (driver.WindowHandles.Count <= index)
+                return false;
+
+            var handle = driver.WindowHandles[index];
+            switchAction.Window(handle);
+
+            return true;
+        }
+
+        #region SCROLL
         /// <summary>
         /// Vertically scrolls an element to the middle of the screen using JavaScript
         /// </summary>
@@ -35,28 +59,12 @@ namespace Wndrr.Selenium
             VerticalScrollTo(driver, element);
         }
 
-        /// <summary>
-        /// Changes the currently focused tab
-        /// </summary>
-        /// <param name="driver"></param>
-        /// <param name="index">Target tab</param>
-        /// <returns>
-        /// false - when the requested index was outside of the possible range
-        /// true - the tab was found, all clear 
-        /// </returns>
-        public static bool SwitchToTab(this IWebDriver driver, int index)
-        {
-            var switchAction = driver.SwitchTo();
-            // If the index is out of range
-            if (driver.WindowHandles.Count <= index)
-                return false;
+        #endregion
 
-            var handle = driver.WindowHandles[index];
-            switchAction.Window(handle);
+        #region WAIT
 
-            return true;
-        }
-
+        #region URL CHANGE
+        
         /// <summary>
         /// Polls the driver URL until it changes or until the timeout expires
         /// <exception cref="TimeoutException"></exception>
@@ -96,6 +104,10 @@ namespace Wndrr.Selenium
             WaitUntilCurrentUrlChange(driver, timeoutSpan, pollInterval);
         }
 
+        #endregion
+
+        #region URL IS
+
         /// <summary>
         /// Polls the driver URL until it changes to the targetUrl or until the timeout expires
         /// <exception cref="TimeoutException"></exception>
@@ -112,7 +124,7 @@ namespace Wndrr.Selenium
             while (true)
             {
                 if (driver.Url == targetUrl)
-                return;
+                    return;
 
                 var isTimeout = TimeSpan.Compare(timer.Elapsed, timeout) > 0;
                 if (isTimeout)
@@ -136,5 +148,9 @@ namespace Wndrr.Selenium
             var timeoutSpan = new TimeSpan(0, 0, 0, 0, timeout);
             WaitUntilUrlIs(driver, targetUrl, timeoutSpan, pollInterval);
         }
+
+        #endregion
+
+        #endregion
     }
 }
