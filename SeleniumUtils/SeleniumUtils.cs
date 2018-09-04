@@ -151,6 +151,51 @@ namespace Wndrr.Selenium
 
         #endregion
 
+        #region URL CONTAINS
+
+        /// <summary>
+        /// Polls the driver URL until it contains the fragment of url or until the timeout expires
+        /// <exception cref="TimeoutException"></exception>
+        /// </summary>
+        /// <param name="driver"></param>
+        /// <param name="targetUrlPart">The URL fragment to look for</param>
+        /// <param name="timeout">Throws if the URL has not changed before the specified timeout period is elapsed</param>
+        /// <param name="pollInterval">The time to wait between two polls</param>
+        public static void WaitUntilUrlContains(this IWebDriver driver, string targetUrlPart, TimeSpan timeout, int pollInterval = 500)
+        {
+            var timer = new Stopwatch();
+            timer.Start();
+
+            while (true)
+            {
+                if (driver.Url.Contains(targetUrlPart))
+                    return;
+
+                var isTimeout = TimeSpan.Compare(timer.Elapsed, timeout) > 0;
+                if (isTimeout)
+                    throw new TimeoutException($"The URL {driver.Url} has not changed to {targetUrlPart} within the allowed {timeout} milliseconds");
+
+                Thread.Sleep(pollInterval);
+            }
+        }
+
+        /// <summary>
+        /// Polls the driver URL until it contains the fragment of url or until the timeout expires
+        /// <exception cref="TimeoutException"></exception>
+        /// </summary>
+        /// <param name="driver"></param>
+        /// <param name="targetUrlPart">The URL fragment to look for</param>
+        /// <param name="timeout">Throws if the URL has not changed before the specified timeout period is elapsed</param>
+        /// <param name="pollInterval">The time to wait between two polls</param>
+        public static void WaitUntilUrlContains(this IWebDriver driver, string targetUrlPart, int timeout = 10000, int pollInterval = 500)
+        {
+
+            var timeoutSpan = new TimeSpan(0, 0, 0, 0, timeout);
+            WaitUntilUrlContains(driver, targetUrlPart, timeoutSpan, pollInterval);
+        }
+
+        #endregion
+
         #endregion
     }
 }
