@@ -64,5 +64,17 @@ using (var driver = new ChromeDriver())
 }
 ```
 
+### The `WaitUntilUrlContains` extension method
+
+Periodically checks if the browser URL contains the passed string. If the URL does not match before the specified timeout occurs, a `TimeoutException` will be thrown.
+```csharp
+// Instanciate an IWebDriver
+using (var driver = new ChromeDriver())
+{
+    // Will wait untill the URL becomes https://request.url using the default timeout (10s) and poll (.5s) time
+    driver.WaitUntilUrlContains("/part/of/url?wololo=pouët");
+}
+```
+
 ### Legacy code
 The `ScrollTo` was made obsolete. Use `VerticalScrollTo` instead.
