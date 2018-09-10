@@ -116,19 +116,25 @@ namespace Wndrr.Selenium
         /// <param name="targetUrl">The URL to look for</param>
         /// <param name="timeout">Throws if the URL has not changed before the specified timeout period is elapsed</param>
         /// <param name="pollInterval">The time to wait between two polls</param>
-        public static void WaitUntilUrlIs(this IWebDriver driver, string targetUrl, TimeSpan timeout, int pollInterval = 500)
+        /// <param name="trimTrailingSlash">Remove trailing slashes from the internet call to <paramref name="driver"/>.Url</param>
+        public static void WaitUntilUrlIs(this IWebDriver driver, string targetUrl, TimeSpan timeout, int pollInterval = 500, bool trimTrailingSlash = true)
         {
             var timer = new Stopwatch();
             timer.Start();
 
             while (true)
             {
-                if (driver.Url == targetUrl)
+                var driverUrl = driver.Url;
+
+                if (trimTrailingSlash)
+                    driverUrl = driverUrl.TrimEnd('/');
+
+                if (driverUrl == targetUrl)
                     return;
 
                 var isTimeout = TimeSpan.Compare(timer.Elapsed, timeout) > 0;
                 if (isTimeout)
-                    throw new TimeoutException($"The URL {driver.Url} has not changed to {targetUrl} within the allowed {timeout} milliseconds");
+                    throw new TimeoutException($"The URL {driverUrl} has not changed to {targetUrl} within the allowed {timeout} milliseconds");
 
                 Thread.Sleep(pollInterval);
             }
@@ -142,11 +148,12 @@ namespace Wndrr.Selenium
         /// <param name="targetUrl">The URL to look for</param>
         /// <param name="timeout">Throws if the URL has not changed before the specified timeout period is elapsed</param>
         /// <param name="pollInterval">The time to wait between two polls</param>
-        public static void WaitUntilUrlIs(this IWebDriver driver, string targetUrl, int timeout = 10000, int pollInterval = 500)
+        /// <param name="trimTrailingSlash">Remove trailing slashes from the internet call to <paramref name="driver"/>.Url</param>
+        public static void WaitUntilUrlIs(this IWebDriver driver, string targetUrl, int timeout = 10000, int pollInterval = 500, bool trimTrailingSlash = true)
         {
 
             var timeoutSpan = new TimeSpan(0, 0, 0, 0, timeout);
-            WaitUntilUrlIs(driver, targetUrl, timeoutSpan, pollInterval);
+            WaitUntilUrlIs(driver, targetUrl, timeoutSpan, pollInterval, trimTrailingSlash);
         }
 
         #endregion
@@ -161,19 +168,25 @@ namespace Wndrr.Selenium
         /// <param name="targetUrlPart">The URL fragment to look for</param>
         /// <param name="timeout">Throws if the URL has not changed before the specified timeout period is elapsed</param>
         /// <param name="pollInterval">The time to wait between two polls</param>
-        public static void WaitUntilUrlContains(this IWebDriver driver, string targetUrlPart, TimeSpan timeout, int pollInterval = 500)
+        /// <param name="trimTrailingSlash">Remove trailing slashes from the internet call to <paramref name="driver"/>.Url</param>
+        public static void WaitUntilUrlContains(this IWebDriver driver, string targetUrlPart, TimeSpan timeout, int pollInterval = 500, bool trimTrailingSlash = true)
         {
             var timer = new Stopwatch();
             timer.Start();
 
             while (true)
             {
-                if (driver.Url.Contains(targetUrlPart))
+                var driverUrl = driver.Url;
+
+                if (trimTrailingSlash)
+                    driverUrl = driverUrl.TrimEnd('/');
+
+                if (driverUrl.Contains(targetUrlPart))
                     return;
 
                 var isTimeout = TimeSpan.Compare(timer.Elapsed, timeout) > 0;
                 if (isTimeout)
-                    throw new TimeoutException($"The URL {driver.Url} has not changed to {targetUrlPart} within the allowed {timeout} milliseconds");
+                    throw new TimeoutException($"The URL {driverUrl} has not changed to {targetUrlPart} within the allowed {timeout} milliseconds");
 
                 Thread.Sleep(pollInterval);
             }
@@ -187,11 +200,12 @@ namespace Wndrr.Selenium
         /// <param name="targetUrlPart">The URL fragment to look for</param>
         /// <param name="timeout">Throws if the URL has not changed before the specified timeout period is elapsed</param>
         /// <param name="pollInterval">The time to wait between two polls</param>
-        public static void WaitUntilUrlContains(this IWebDriver driver, string targetUrlPart, int timeout = 10000, int pollInterval = 500)
+        /// <param name="trimTrailingSlash">Remove trailing slashes from the internet call to <paramref name="driver"/>.Url</param>
+        public static void WaitUntilUrlContains(this IWebDriver driver, string targetUrlPart, int timeout = 10000, int pollInterval = 500, bool trimTrailingSlash = true)
         {
 
             var timeoutSpan = new TimeSpan(0, 0, 0, 0, timeout);
-            WaitUntilUrlContains(driver, targetUrlPart, timeoutSpan, pollInterval);
+            WaitUntilUrlContains(driver, targetUrlPart, timeoutSpan, pollInterval, trimTrailingSlash);
         }
 
         #endregion
