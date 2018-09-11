@@ -134,7 +134,7 @@ namespace Wndrr.Selenium
 
                 var isTimeout = TimeSpan.Compare(timer.Elapsed, timeout) > 0;
                 if (isTimeout)
-                    throw new TimeoutException($"The URL {driverUrl} has not changed to {targetUrl} within the allowed {timeout} milliseconds");
+                    throw new TimeoutException($"The URL '{driverUrl}' has not changed to '{targetUrl}' within the allowed {timeout.TotalSeconds} seconds");
 
                 Thread.Sleep(pollInterval);
             }
@@ -186,7 +186,7 @@ namespace Wndrr.Selenium
 
                 var isTimeout = TimeSpan.Compare(timer.Elapsed, timeout) > 0;
                 if (isTimeout)
-                    throw new TimeoutException($"The URL {driverUrl} has not changed to {targetUrlPart} within the allowed {timeout} milliseconds");
+                    throw new TimeoutException($"The URL '{driverUrl}' has not changed to contain '{targetUrlPart}' within the allowed {timeout.TotalSeconds} seconds");
 
                 Thread.Sleep(pollInterval);
             }
